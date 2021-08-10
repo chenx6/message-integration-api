@@ -27,3 +27,19 @@ def count_items(db: Session, start: int, *filter_):
     """
     cnt = db.query(Item).filter(*filter_).count()
     return start >= cnt
+
+
+def get_items(db: Session, zone_id: int, start: int = 0, limit: int = 10):
+    """
+    从数据库中获取 RSS 推送
+    """
+    filter_ = Item.zone_id == zone_id
+    if count_items(db, start, filter_):
+        return []
+    return (
+        db.query(Item)
+        .filter(filter_)
+        .order_by(Item.update_time.desc())
+        .slice(start, start + limit)
+        .all()
+    )
