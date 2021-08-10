@@ -34,6 +34,11 @@ celery_app.conf.beat_schedule = {
         "schedule": crontab(hour="*/1", minute="0"),
         "args": (),
     },
+    "Update weixin public": {
+        "task": "celery_app.worker.update_weixin_public_worker",
+        "schedule": crontab(hour="*/1", minute="0"),
+        "args": (),
+    },
 }
 """
 "Execution test": {"task": "celery_app.worker.period_test", "schedule": 60, "args": ()},
