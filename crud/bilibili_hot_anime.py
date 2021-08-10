@@ -4,7 +4,6 @@ from sqlalchemy.orm import Session
 
 from models.item import Item
 from schemas.item import Item as ItemSchemas
-from schemas.zone import Zones
 
 from .utils import count_items, insert_items
 
@@ -13,7 +12,7 @@ def get_bili_hot_anime(db: Session, start: int = 0, limit: int = 10):
     """
     从数据库中获得 Bilibili 番剧区热门
     """
-    filter_ = Item.zone_id == Zones.BiliHotAnime.value
+    filter_ = Item.zone_id == 2
     # 查询起点是否超过数据库中数据数量时，返回空列表表示数据库中无多余数据
     if count_items(db, start, filter_):
         return []
@@ -25,6 +24,6 @@ def update_bili_hot_anime(db: Session, items: List[ItemSchemas]):
     更新数据库中 Bilibili 番剧区热门
     需要注意的是只保存当前热门数据，得删除之前数据才插入更新数据
     """
-    db.query(Item).filter(Item.zone_id == Zones.BiliHotAnime.value).delete()
+    db.query(Item).filter(Item.zone_id == 2).delete()
     db.commit()
     insert_items(db, items)

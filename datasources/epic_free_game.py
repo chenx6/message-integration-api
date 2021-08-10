@@ -4,7 +4,6 @@ from requests import get
 from arrow import get as get_time
 
 from schemas.item import Item
-from schemas.zone import Zones
 
 
 def filter_free_game(elem):
@@ -29,7 +28,7 @@ def gene_info(elem):
         update_time=get_time(elem["effectiveDate"]).datetime,
         fetch_time=datetime.now(),
         url=f'https://www.epicgames.com/store/zh-CN/p/{elem["productSlug"]}',
-        zone_id=Zones.EpicFreeGame.value,
+        zone_id=1,
     )
 
 

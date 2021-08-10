@@ -1,6 +1,6 @@
 from datasources.epic_free_game import epic_free_game
 from datasources.bili_hot_anime import bili_hot_anime
-from datasources.rss_feed import rss_feed, subs
+from datasources.rss_feed import rss_feed
 from datasources.zhihu_daily import zhihu_daily
 from datasources.zhihu_hot import zhihu_hot
 
@@ -9,6 +9,7 @@ from crud.bilibili_hot_anime import update_bili_hot_anime
 from crud.rss_feed import update_rss_feed
 from crud.zhihu_daily import update_zhihu_daily
 from crud.zhihu_hot import update_zhihu_hot
+from crud.zone import get_zone_by_type
 
 from database import SessionLocal
 from .celery_app import celery_app
@@ -32,11 +33,12 @@ def update_bili_hot_anime_worker():
 
 @celery_app.task()
 def update_rss_feed_worker():
-    for sub in subs:
-        items = rss_feed(sub.sub_url)
-        db = SessionLocal()
+    db = SessionLocal()
+    zones = get_zone_by_type(db, 2)
+    for zone in zones:
+        items = rss_feed(zone.sub_url, zone.id)
         update_rss_feed(db, items)
-        print(f"Update rss feed from {sub.sub_url} success!")
+        print(f"Update rss feed from {zone.sub_url} success!")
 
 
 @celery_app.task()

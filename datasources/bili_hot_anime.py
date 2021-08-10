@@ -7,7 +7,6 @@ from requests import get
 from arrow import get as get_time
 
 from schemas.item import Item
-from schemas.zone import Zones
 
 
 def bili_hot_anime():
@@ -25,7 +24,7 @@ def bili_hot_anime():
             update_time=get_time(a["create"], "YYYY-MM-DD HH:mm").datetime,
             fetch_time=datetime.now(),
             url=f'https://www.bilibili.com/video/{a["bvid"]}',
-            zone_id=Zones.BiliHotAnime.value,
+            zone_id=2,
         )
         for a in animes
     ]

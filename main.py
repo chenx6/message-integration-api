@@ -1,11 +1,13 @@
 from typing import List
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.orm import Session
 
 from routers import bili, epic, zhihu_daily, zhihu_hot, rss_feed
-from schemas.router_resp import Router
-from datasources.rss_feed import subs
+from crud.zone import get_zones
+from utils import get_db
+from schemas.zone import Zone
 
 app = FastAPI()
 
@@ -35,19 +37,13 @@ async def status():
     return {"status": "working"}
 
 
-@app.get("/api/routers", response_model=List[Router])
-async def routers():
+@app.get("/api/routers", response_model=List[Zone])
+async def routers(db: Session = Depends(get_db)):
     """
     API 路由
     """
-    basic = [
-        Router(name="Epic 白嫖游戏", path="/api/epic"),
-        Router(name="Bilibili 热门动漫", path="/api/bili"),
-        Router(name="知乎日报", path="/api/zhihu_daily"),
-        Router(name="知乎热榜", path="/api/zhihu_hot"),
-    ]
-    basic += [Router(name=sub.name, path=f"/api{sub.api_url}") for sub in subs]
-    return basic
+    routers = get_zones(db)
+    return routers
 
 
 """
