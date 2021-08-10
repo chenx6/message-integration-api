@@ -27,6 +27,13 @@ zones = [
         api_path="/api/52pojie",
         sub_url="https://www.52pojie.cn/forum.php?mod=guide&view=digest&rss=1",
     ),
+    Zone(
+        id=7,
+        type=3,
+        name="Linux News搬运工",
+        api_path="/api/lwn_translated",
+        sub_url="Linux News搬运工",
+    ),
 ]
 session.add_all(zones)
 session.commit()
