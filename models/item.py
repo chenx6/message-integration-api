@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey
 
 from database import Base
@@ -18,4 +17,3 @@ class Item(Base):
     url = Column(String, unique=True)
 
     zone_id = Column(Integer, ForeignKey("zone.id"))
-    zone = relationship("Zone", back_populates="items")

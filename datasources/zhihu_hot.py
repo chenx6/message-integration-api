@@ -6,7 +6,6 @@ from arrow import get as get_time
 from bs4 import BeautifulSoup
 
 from schemas.item import Item
-from schemas.zone import Zones
 from .utils import HEADERS
 
 
@@ -27,7 +26,7 @@ def zhihu_hot():
             update_time=datetime.now(),
             fetch_time=datetime.now(),
             url=item["link"]["url"],
-            zone_id=Zones.ZhihuHot.value,
+            zone_id=4,
         )
         for item in map(lambda x: x["target"], hot_list)
     ]

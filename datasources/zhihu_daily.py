@@ -4,7 +4,6 @@ from requests import get
 from arrow import get as get_time
 
 from schemas.item import Item
-from schemas.zone import Zones
 from .utils import HEADERS
 
 
@@ -22,7 +21,7 @@ def zhihu_daily():
             update_time=get_time(data["date"], "YYYYMMDD").datetime,
             fetch_time=datetime.now(),
             url=story["url"],
-            zone_id=Zones.ZhihuDaily.value,
+            zone_id=3,
         )
         for story in data["stories"]
     ]
