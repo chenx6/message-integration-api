@@ -65,9 +65,9 @@ def parse_sogou(session: Session, url: str):
     publish_time_s = selected.next_sibling.script.string  # type: ignore
     publish_time = grab_time_re.findall(publish_time_s)[0]
     href: str = selected["href"]  # type: ignore
-    print(f"[*] Origin href: {href}")
+    # print(f"[*] Origin href: {href}")
     href = calc_href(href)
-    print(f"[+] Calculated href: {href}")
+    # print(f"[+] Calculated href: {href}")
     return f"{SOGOU_URL}{href}", selected.text, int(publish_time)  # type: ignore
 
 
@@ -80,12 +80,12 @@ def parse_jump_page(session: Session, jump_url: str) -> str:
     # 获取并拼接 approve 链接
     approve_url = approve_re.findall(jump_content)[0]
     approve_url = concat_approve(approve_url)
-    print(f"[+] Approve url: {approve_url}")
+    # print(f"[+] Approve url: {approve_url}")
     session.get(approve_url)
     # 拼接文章 URL
     urls = real_url_re.findall(jump_content)
     url = "".join(urls).replace("@", "")
-    print(f"[+] Article url: {url}")
+    # print(f"[+] Article url: {url}")
     return url
 
 
