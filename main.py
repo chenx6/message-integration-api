@@ -4,7 +4,7 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
-from routers import bili, epic, zhihu_daily, zhihu_hot, rss_feed, weixin_public
+from routers import bili, epic, zhihu_daily, zhihu_hot, rss_feed, weixin_public, search
 from crud.zone import get_zones
 from utils import get_db
 from schemas.zone import Zone
@@ -18,6 +18,7 @@ app.include_router(zhihu_daily.router)
 app.include_router(zhihu_hot.router)
 app.include_router(rss_feed.router)
 app.include_router(weixin_public.router)
+app.include_router(search.router)
 
 # CORS 配置
 origins = ["http://localhost:3000"]
