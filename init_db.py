@@ -34,6 +34,13 @@ zones = [
         api_path="/api/lwn_translated",
         sub_url="Linux News搬运工",
     ),
+    Zone(
+        id=8,
+        type=2,
+        name="InfoQ",
+        api_path="/api/infoq",
+        sub_url="https://feed.infoq.com/articles/"
+    ),
 ]
 session.add_all(zones)
 session.commit()
