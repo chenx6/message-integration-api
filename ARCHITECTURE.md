@@ -41,6 +41,6 @@ schemas 和 models 是 pydantic 模型，数据库模型，用于数据的表示
 - 在 celery_app 添加定时抓取函数
 - 在 routers 添加获取 API，并在 main.py 注册路由
 
-## RSS
+## RSS/微信公众号订阅
 
-在 datasource/rss_feed 的 `subs` 列表中添加相关信息即可。
+由于这两个功能使用非常频繁，所以在 `init_db.py` 中添加 zone.type == 2（RSS），zone.type == 3（微信）的 `Zone` 就好，具体参考文件里的内容。
