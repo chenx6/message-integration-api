@@ -17,7 +17,7 @@ beat_schedule = {
     },
     "Update zhihu daily": {
         "task": "celery_app.worker.update_zhihu_daily_worker",
-        "schedule": crontab(hour="6", minute="0"),
+        "schedule": crontab(hour="6,8,10,12", minute="0"),
         "args": (),
     },
     "Update zhihu hot": {
