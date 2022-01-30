@@ -35,7 +35,6 @@ schemas 和 models 是 pydantic 模型，数据库模型，用于数据的表示
 
 ## 添加新数据源
 
-- 在 schemas 添加 Zones 类别
 - 在 datasources 添加数据获取函数
 - 在 crud 添加数据查询和更新函数
 - 在 celery_app 添加定时抓取函数
