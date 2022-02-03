@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from schemas.item_resp import ItemsResp
-from crud.bilibili_hot_anime import get_bili_hot_anime
+from datasources.bili_hot_anime import get_bili_hot_anime
 from utils import get_db
 
 router = APIRouter(prefix="/api", tags=["bili"])

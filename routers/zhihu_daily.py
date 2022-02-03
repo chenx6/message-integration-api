@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from schemas.item_resp import ItemsResp
-from crud.zhihu_daily import get_zhihu_daily
+from datasources.zhihu_daily import get_zhihu_daily
 from utils import get_db
 
 
