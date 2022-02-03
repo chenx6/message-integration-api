@@ -1,11 +1,15 @@
 from re import compile
 from random import randint
 from datetime import datetime
+from typing import List
 
 from requests import Session
 from bs4 import BeautifulSoup
+from sqlalchemy.orm import Session as DbSession
 
-from schemas.item import Item
+from models.item import Item as ItemModel
+from schemas.item import Item as ItemSchemas
+from crud.utils import get_items
 
 HEADER = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0"
@@ -110,7 +114,7 @@ def parse_weixin(public_name: str):
     return text
 
 
-def weixin_public(public_name: str, zone_id: int):
+def fetch_weixin_public(public_name: str, zone_id: int):
     """
     获取微信公众号发文
     """
@@ -119,7 +123,7 @@ def weixin_public(public_name: str, zone_id: int):
     session.headers.update(HEADER)
     jump_url, article_title, publish_time = parse_sogou(session, search_url)
     real_url = parse_jump_page(session, jump_url)
-    return Item(
+    return ItemSchemas(
         title=article_title,
         message="",
         update_time=datetime.fromtimestamp(publish_time),
@@ -127,3 +131,26 @@ def weixin_public(public_name: str, zone_id: int):
         url=real_url,
         zone_id=zone_id,
     )
+
+
+def get_weixin_public(db: DbSession, zone_id: int, start: int = 0, limit: int = 10):
+    """
+    从数据库中获取微信公众号文章
+    """
+    return get_items(db, zone_id, start, limit)
+
+
+def update_weixin_public(db: DbSession, items: List[ItemSchemas]):
+    """
+    更新数据库中微信公众号文章
+    """
+    db_items = []
+    for item in items:
+        query = db.query(ItemModel).filter(
+            ItemModel.title == item.title, ItemModel.zone_id == item.zone_id
+        )
+        if query.count() != 0:
+            query.delete()
+        db_items.append(ItemModel(**item.dict()))
+    db.add_all(db_items)
+    db.commit()

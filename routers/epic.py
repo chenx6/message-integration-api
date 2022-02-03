@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from schemas.item_resp import ItemsResp
-from crud.epic_free_game import get_epic_free_game
+from datasources.epic_free_game import get_epic_free_game
 from utils import get_db
 
 router = APIRouter(prefix="/api", tags=["epic"])
